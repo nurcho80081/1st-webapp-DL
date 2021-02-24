@@ -1,8 +1,4 @@
-os==
-streamlit==
-pandas==
-tensorflow==
-numpy==
-PIL==
-matplotlib==
-skimage==
+streamlit==0.76.0
+pandas==0.25.2
+tensorflow==2.4.1
+numpy==1.19.5
