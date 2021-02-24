@@ -1,0 +1,65 @@
+import os
+import streamlit as st
+import pandas as pd
+from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.imagenet_utils import preprocess_input 
+import numpy as np
+from PIL import Image 
+import matplotlib.pyplot as plt
+from tensorflow.keras.preprocessing import image
+from matplotlib.image import imread
+from skimage.transform import resize
+
+
+st.title("LEBAH ATAU AYAM")
+st.write("Dengan menggunakan Model Deep Learning")
+
+model_path = 'C:/Users/nurcholis/Documents/Project Chols/CNN/bee_vs_chicken/bee_vs_chicken.hdf5'
+
+image_shape = (238,271,3)
+classes = ['Lebah', 'Ayam']
+
+
+# Prediction
+def model_predict(img, model):
+    
+    image_resize = resize(img, image_shape)
+    x=preprocess_input(image_resize*255)
+    x= np.expand_dims(x, axis=0)
+    preds = model.predict(x)
+    return preds
+
+# Kategori
+def category(predictS):
+    
+    if predictS <= 0.00001:
+        return 'Lebah'
+    else:
+        return 'Ayam'
+
+
+# Layout
+def main():
+    model=''
+    
+    if model=='':
+        model = load_model(model_path)
+        
+    st.write("Aplikasi ini digunakan untuk memprediksi gambar apakah termasuk jenis lebah atau ayam, hasil prediksi tidak menjamin 100% benar tergantung dari model yang dibuat")
+
+    predictS=''
+    img_buffer = st.file_uploader("Silahkan upload image", type=['png','jpg','jpeg'])
+
+    if img_buffer is not None:
+        image = np.array(Image.open(img_buffer))
+        st.image(image, caption="Test Image", use_column_width=False)
+        
+    if st.button("Prediction"):
+        predictS = model_predict(image, model)
+        st.success('Hasil Prediksi kategori : {}'.format(category(predictS)))
+        st.success('Hasil Prediksi kategori : {}'.format(predictS))
+#        st.success('Hasil Prediksi kategori : {}'.format(classes[np.argmax(predictS)]))
+        
+        
+if __name__ == '__main__':
+    main()
