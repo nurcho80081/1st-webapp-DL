@@ -1,13 +1,10 @@
-import os
 import streamlit as st
 import pandas as pd
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.imagenet_utils import preprocess_input 
 import numpy as np
 from PIL import Image 
-import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing import image
-from matplotlib.image import imread
 from skimage.transform import resize
 
 
@@ -58,7 +55,6 @@ def main():
         predictS = model_predict(image, model)
         st.success('Hasil Prediksi kategori : {}'.format(category(predictS)))
         st.success('Hasil Prediksi kategori : {}'.format(predictS))
-#        st.success('Hasil Prediksi kategori : {}'.format(classes[np.argmax(predictS)]))
         
         
 if __name__ == '__main__':
